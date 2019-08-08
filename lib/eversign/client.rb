@@ -4,7 +4,7 @@ require 'json'
 require 'logger'
 
 module Eversign
-	
+
 	class FileNotFoundException < Exception
 	end
 
@@ -21,7 +21,7 @@ module Eversign
 			end
 			self.business_id = Eversign.configuration.business_id
 		end
-		
+
 		def set_oauth_access_token(oauthtoken)
 			if oauthtoken.startswith('Bearer ')
         self.token = oauthtoken
@@ -101,15 +101,6 @@ module Eversign
 		end
 
 		def create_document(document)
-			if document.files
-				for file in document.files
-	        if file.file_url
-	          file_response = self.upload_file(file.file_url)
-	          file.file_url = nil
-	          file.file_id = file_response.file_id
-	        end
-	      end
-	    end
 	  	path = "/api/document?access_key=#{access_key}&business_id=#{business_id}"
       data = Eversign::Mappings::Document.representation_for(document)
 			response = execute_request(:post, path, data)
@@ -155,7 +146,7 @@ module Eversign
 
 		private
 			def execute_request(method, path, body=nil, multipart=false)
-				@faraday ||= Faraday.new(base_uri) do |conn| 
+				@faraday ||= Faraday.new(base_uri) do |conn|
 				  conn.headers = { }
 				  conn.headers['User-Agent'] = 'Eversign_Ruby_SDK'
 				  conn.headers['Authorization'] = token if token
@@ -171,7 +162,7 @@ module Eversign
 
 			def check_arguments(arguments=[], options={})
         arguments.each do |argument|
-          raise ('Please specify ' + argument) unless options.has_key?(argument.to_sym) 
+          raise ('Please specify ' + argument) unless options.has_key?(argument.to_sym)
         end
       end
 
