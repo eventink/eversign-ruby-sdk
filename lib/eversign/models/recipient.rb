@@ -1,7 +1,7 @@
 module Eversign
 	module Models
 		class Recipient
-	    attr_accessor :name, :email, :role
+	    attr_accessor :name, :email, :role, :language
 
 	    def initialize(name=nil, email=nil, role=nil)
 	    	self.name = name
